@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Chord tool</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script async type="text/javascript" src="https://www.scales-chords.com/api/scales-chords-api.js"></script>
+    <script src="script.js" defer></script>
+
+
+</head>
+
+<body>
+
+
+    <h1 class="title">Main title</h1>
+    <div class="main-content">
+        hello world
+        <!-- <ins class="scales_chords_api" chord="D#m(maj9)"></ins> -->
+
+    </div>
+    <label for="instrument">Instrument:</label>
+    <select id="instrument" onchange="showChord()">
+        <option value="guitar">Guitar</option>
+        <option value="piano">Piano</option>
+    </select>
+
+    <label for="chord">Chord:</label>
+    <select id="chord" onchange="showChord()">
+        <option value="C">C</option>
+        <option value="Cm">Cm</option>
+        <option value="D">D</option>
+        <option value="D#m/E">D#m/E</option>
+        <option value="G">G</option>
+    </select>
+
+    <!-- <button onclick="showChord()">Show Chord</button> -->
+
+    <br><br>
+
+    <div id="chord-container">
+        <ins id="chordDisplay" class="scales_chords_api" chord="D" instrument="piano" output="image" nolink="true">
+        </ins>
+        <!-- <img id="chordImage" width="120" height="160"> -->
+    </div>
+
+</body>
+
+</html>
