@@ -16,17 +16,11 @@
 
 
     <h1 class="title">Main title</h1>
+
     <div class="main-content">
-        hello world
-        <!-- <ins class="scales_chords_api" chord="D#m(maj9)"></ins> -->
 
     </div>
-    <label for="instrument">Instrument:</label>
-    <select id="instrument" onchange="showChord()">
-        <option value="guitar">Guitar</option>
-        <option value="piano">Piano</option>
-    </select>
-
+    <div id="piano"></div>
     <label for="chord">Chord:</label>
     <select id="chord" onchange="showChord()">
         <option value="C">C</option>
@@ -36,13 +30,11 @@
         <option value="G">G</option>
     </select>
 
-    <!-- <button onclick="showChord()">Show Chord</button> -->
-
     <br><br>
 
     <div id="chord-container">
-        <ins id="chordDisplay" class="scales_chords_api" chord="D" instrument="piano" output="image" nolink="true">
-        </ins>
+        <!-- <ins id="chordDisplay" class="scales_chords_api" chord="D" instrument="piano" output="image" nolink="true">
+        </ins> -->
         <!-- <img id="chordImage" width="120" height="160"> -->
     </div>
 
