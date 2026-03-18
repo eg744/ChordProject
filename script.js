@@ -80,53 +80,49 @@ function renderPiano(root, type) {
 	const piano = document.getElementById('piano');
 	piano.innerHTML = '';
 
-	const chordFormulas = {
-		major: [0, 4, 7],
-		minor: [0, 3, 7],
-	};
-
-	const rootIndex = baseNotes.indexOf(root);
-	const intervals = chordFormulas[type];
-
-	// build chord notes (no octave yet)
-	const chordNotes = intervals.map((i) => baseNotes[(rootIndex + i) % 12]);
-
-	// build keyboard
 	const keyboard = buildKeyboard();
 
-	// WHITE NOTES ONLY (filter)
-	const whiteOrder = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+	// STEP 1: get chord notes (intervals)
+	const chordIndexes = buildChordVoicing(root, type);
 
+	// STEP 2: find where to place root (anchor)
+	const startIndex = getAnchoredRootIndex(root);
+
+	// STEP 3: build actual notes WITH position
+	const activeIndexes = chordIndexes.map((i) => startIndex + i);
+
+	// WHITE KEYS
 	const whiteKeys = keyboard.filter((k) => !k.includes('#'));
 
-	// render white keys
 	whiteKeys.forEach((noteFull, i) => {
-		const note = noteFull.replace(/[0-9]/g, '');
-
 		const key = document.createElement('div');
 		key.className = 'white-key';
 
-		if (chordNotes.includes(note)) {
+		// find this note's index in full keyboard
+		const fullIndex = keyboard.indexOf(noteFull);
+
+		if (activeIndexes.includes(fullIndex)) {
 			key.classList.add('active-white');
 		}
 
 		piano.appendChild(key);
 	});
 
-	// render black keys
+	// BLACK KEYS
 	keyboard.forEach((noteFull, i) => {
 		if (!noteFull.includes('#')) return;
-
-		const note = noteFull.replace(/[0-9]/g, '');
 
 		const key = document.createElement('div');
 		key.className = 'black-key';
 
-		// position math
-		const whiteIndex = Math.floor(i / 2);
-		key.style.left = whiteIndex * 60 + 40 + 'px';
+		// position relative to white keys
+		const whiteIndex = keyboard
+			.slice(0, i)
+			.filter((n) => !n.includes('#')).length;
 
-		if (chordNotes.includes(note)) {
+		key.style.left = whiteIndex * 60 - 20 + 'px';
+
+		if (activeIndexes.includes(i)) {
 			key.classList.add('active-black');
 		}
 
@@ -136,13 +132,16 @@ function renderPiano(root, type) {
 
 function getAnchoredRootIndex(root) {
 	const keyboard = buildKeyboard();
+	const maxStart = keyboard.length - 8; // leave room for chord
 
-	// place root roughly 1/3 into keyboard
+	// Root note is leftmost. Octave is leftmost.
 	for (let i = 0; i < keyboard.length; i++) {
 		if (keyboard[i].startsWith(root)) {
-			return i;
+			return Math.min(i, maxStart);
 		}
 	}
+
+	return 0;
 }
 
 function buildChordVoicing(root, type) {
@@ -151,7 +150,5 @@ function buildChordVoicing(root, type) {
 		minor: [0, 3, 7],
 	};
 
-	const rootIndex = baseNotes.indexOf(root);
-
-	return intervals[type].map((i) => (rootIndex + i) % 12);
+	return intervals[type];
 }
