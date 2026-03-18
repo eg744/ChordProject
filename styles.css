@@ -13,3 +13,41 @@ div {
 p {
 	background-color: yellow;
 }
+
+#piano {
+	position: relative;
+	width: 900px;
+	height: 180px;
+}
+
+/* White keys */
+.white-key {
+	width: 60px;
+	height: 180px;
+	background: white;
+	border: 1px solid black;
+	box-sizing: border-box;
+	float: left;
+	position: relative;
+	z-index: 1;
+	border-radius: 0 0 5px 5px;
+}
+
+/* Black keys */
+.black-key {
+	width: 40px;
+	height: 110px;
+	background: black;
+	position: absolute;
+	z-index: 2;
+	border-radius: 0 0 5px 5px;
+}
+
+/* Active notes */
+.active-white {
+	background: orange;
+}
+
+.active-black {
+	background: red;
+}
