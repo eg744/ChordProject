@@ -39,7 +39,10 @@ function getChord() {
 }
 
 function showChord() {
-	const chord = document.getElementById('chord').value;
+	let chord = document.getElementById('chord').value;
+
+	const sig = getKeysig();
+	chord = chord + sig;
 
 	let root = chord[0];
 	if (chord[1] === '#') root += '#';
@@ -82,13 +85,13 @@ function renderPiano(root, type) {
 
 	const keyboard = buildKeyboard();
 
-	// STEP 1: get chord notes (intervals)
+	// get chord notes (intervals)
 	const chordIndexes = buildChordVoicing(root, type);
 
-	// STEP 2: find where to place root (anchor)
+	// find where to place root (anchor)
 	const startIndex = getAnchoredRootIndex(root);
 
-	// STEP 3: build actual notes WITH position
+	// build actual notes WITH position
 	const activeIndexes = chordIndexes.map((i) => startIndex + i);
 
 	// WHITE KEYS
@@ -151,4 +154,11 @@ function buildChordVoicing(root, type) {
 	};
 
 	return intervals[type];
+}
+
+function getKeysig() {
+	const keysig = document.getElementById('majorMinor').value;
+	if (keysig == 'minor') return 'm';
+
+	return '';
 }
