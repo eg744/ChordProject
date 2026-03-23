@@ -18,39 +18,44 @@ const chords = [
 	'Bm',
 ];
 
+// function showChord() {
+// 	const instrument = document.getElementById('instrument').value;
+// 	const chord = document.getElementById('chord').value;
+
+// 	const img = document.getElementById('chordImage');
+
+// 	img.src =
+// 		'https://www.scales-chords.com/api/chord.php?chord=' +
+// 		encodeURIComponent(chord) +
+// 		'&instrument=' +
+// 		instrument;
+// }
+
+// function getChord() {
+// 	fetch('https://your-api-url.com/chords?note=c&type=7')
+// 		.then((res) => res.json())
+// 		.then((data) => console.log(data))
+// 		.catch((err) => console.error(err));
+// }
+
+// renderPiano('', '');
+
 function showChord() {
-	const instrument = document.getElementById('instrument').value;
-	const chord = document.getElementById('chord').value;
+	const root = document.getElementById('chord').value;
+	const quality = document.getElementById('quality').value;
 
-	const img = document.getElementById('chordImage');
+	const seventh = document.getElementById('seventh').value;
 
-	img.src =
-		'https://www.scales-chords.com/api/chord.php?chord=' +
-		encodeURIComponent(chord) +
-		'&instrument=' +
-		instrument;
-}
+	const add9 = document.getElementById('add9')?.checked;
+	const add11 = document.getElementById('add11')?.checked;
 
-function getChord() {
-	fetch('https://your-api-url.com/chords?note=c&type=7')
-		.then((res) => res.json())
-		.then((data) => console.log(data))
-		.catch((err) => console.error(err));
-}
+	// build chord intervals
+	const intervals = buildChord(root, quality, seventh, {
+		add9: add9,
+		add11: add11,
+	});
 
-function showChord() {
-	let chord = document.getElementById('chord').value;
-
-	const sig = getKeysig();
-	chord = chord + sig;
-
-	let root = chord[0];
-	if (chord[1] === '#') root += '#';
-
-	let type =
-		chord.includes('m') && !chord.includes('maj') ? 'minor' : 'major';
-
-	renderPiano(root, type);
+	renderPiano(root, intervals);
 }
 
 const baseNotes = [
@@ -79,29 +84,26 @@ function buildKeyboard() {
 	return keys;
 }
 
-function renderPiano(root, type) {
+function renderPiano(root, intervals) {
 	const piano = document.getElementById('piano');
 	piano.innerHTML = '';
 
 	const keyboard = buildKeyboard();
+	const rootIndex = baseNotes.indexOf(root);
 
-	// get chord notes (intervals)
-	const chordIndexes = buildChordVoicing(root, type);
-
-	// find where to place root (anchor)
+	// STEP 1: anchor root
 	const startIndex = getAnchoredRootIndex(root);
 
-	// build actual notes WITH position
-	const activeIndexes = chordIndexes.map((i) => startIndex + i);
+	// STEP 2: build actual note positions
+	const activeIndexes = intervals.map((i) => startIndex + i);
 
 	// WHITE KEYS
 	const whiteKeys = keyboard.filter((k) => !k.includes('#'));
 
-	whiteKeys.forEach((noteFull, i) => {
+	whiteKeys.forEach((noteFull) => {
 		const key = document.createElement('div');
 		key.className = 'white-key';
 
-		// find this note's index in full keyboard
 		const fullIndex = keyboard.indexOf(noteFull);
 
 		if (activeIndexes.includes(fullIndex)) {
@@ -118,7 +120,6 @@ function renderPiano(root, type) {
 		const key = document.createElement('div');
 		key.className = 'black-key';
 
-		// position relative to white keys
 		const whiteIndex = keyboard
 			.slice(0, i)
 			.filter((n) => !n.includes('#')).length;
@@ -147,18 +148,29 @@ function getAnchoredRootIndex(root) {
 	return 0;
 }
 
-function buildChordVoicing(root, type) {
-	const intervals = {
+function buildChord(root, quality, seventh, extensions) {
+	const formulas = {
 		major: [0, 4, 7],
 		minor: [0, 3, 7],
+		diminished: [0, 3, 6],
+		augmented: [0, 4, 8],
+		sus2: [0, 2, 7],
+		sus4: [0, 5, 7],
+
+		dominant7: [10],
+		major7: [11],
+		minor7: [10],
 	};
 
-	return intervals[type];
-}
+	let intervals = [...formulas[quality]];
 
-function getKeysig() {
-	const keysig = document.getElementById('majorMinor').value;
-	if (keysig == 'minor') return 'm';
+	if (seventh != '') intervals.push([...formulas[seventh]]);
 
-	return '';
+	if (extensions.add9) intervals.push(14);
+	if (extensions.add11) intervals.push(17);
+
+	// normalize to 0–11 (per octave. EX: Cadd9 over 2 octave == Cadd2 over 1 octave)
+	intervals = intervals.map((i) => i % 24);
+
+	return [...new Set(intervals)];
 }
