@@ -51,3 +51,22 @@ p {
 .active-black {
 	background: red;
 }
+
+/* =======Guitar========== */
+#guitar {
+	margin-top: 20px;
+}
+
+.string {
+	display: flex;
+}
+
+.fret {
+	width: 40px;
+	height: 30px;
+	border: 1px solid #ccc;
+}
+
+.fret.active {
+	background-color: orange;
+}
