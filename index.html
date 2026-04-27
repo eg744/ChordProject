@@ -20,43 +20,124 @@
     <div class="main-content">
 
     </div>
-    <div id="piano"></div>
-    <label for="chord">Chord:</label>
-    <select id="chord" onchange="showChord()">
-        <option value="">Choose</option>option
+    <div class="instruments">
 
-        <option value="C">C</option>
-        <option value="C#">C#</option>
-        <option value="D">D</option>
-        <option value="D#">D#</option>
-        <option value="E">E</option>
-        <option value="F">F</option>
-        <option value="F#">F#</option>
-        <option value="G">G</option>
-        <option value="G#">G#</option>
-        <option value="A">A</option>
-        <option value="A#">A#</option>
-        <option value="B">B</option>
+        <!-- 🎹 PIANO -->
+        <div id="piano-container">
+            <h3>Piano</h3>
+            <div id="piano"></div>
 
-    </select>
+            <select id="piano-chord" onchange="showPianoChord()">
+                <option value="">Choose</option>option
 
-    <!-- <select id="root" onchange="buildChord()">
+                <option value="C">C</option>
+                <option value="C#">C#</option>
+                <option value="D">D</option>
+                <option value="D#">D#</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="F#">F#</option>
+                <option value="G">G</option>
+                <option value="G#">G#</option>
+                <option value="A">A</option>
+                <option value="A#">A#</option>
+                <option value="B">B</option>
+            </select>
+            <select id="piano-quality" onchange="showPianoChord()">
 
-        <option value="">Choose</option>option
+                <option value="major">Major</option>
+                <option value="minor">Minor</option>
+                <option value="diminished">Diminished</option>
+                <option value="augmented">Augmented</option>
+                <option value="sus2">Sus2</option>
+                <option value="sus4">Sus4</option>
+            </select>
+            <select id="piano-seventh"></select>
 
-        <option value="C">C</option>
-        <option value="C#">C#</option>
-        <option value="D">D</option>
-        <option value="D#">D#</option>
-        <option value="E">E</option>
-        <option value="F">F</option>
-        <option value="F#">F#</option>
-        <option value="G">G</option>
-        <option value="G#">G#</option>
-        <option value="A">A</option>
-        <option value="A#">A#</option>
-        <option value="B">B</option>
-    </select> -->
+            <label><input type="checkbox" id="piano-add9"> Add 9</label>
+            <label><input type="checkbox" id="piano-add11"> Add 11</label>
+        </div>
+
+        <!-- 🎸 GUITAR -->
+        <div id="guitar-container">
+            <h3>Guitar</h3>
+            <div id="guitar">
+
+            </div>
+
+
+            <select id="guitar-chord" onchange="showGuitarChord()">
+
+                <option value="">Choose</option>option
+                <option value="C">C</option>
+                <option value="C#">C#</option>
+                <option value="D">D</option>
+                <option value="D#">D#</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="F#">F#</option>
+                <option value="G">G</option>
+                <option value="G#">G#</option>
+                <option value="A">A</option>
+                <option value="A#">A#</option>
+                <option value="B">B</option>
+
+            </select>
+            <select id="guitar-quality" onchange="showGuitarChord()">
+                <option value="major">Major</option>
+                <option value="minor">Minor</option>
+                <option value="diminished">Diminished</option>
+                <option value="augmented">Augmented</option>
+                <option value="sus2">Sus2</option>
+                <option value="sus4">Sus4</option>
+
+            </select>
+            <select id="guitar-seventh"></select>
+
+            <label><input type="checkbox" id="guitar-add9"> Add 9</label>
+            <label><input type="checkbox" id="guitar-add11"> Add 11</label>
+        </div>
+
+        <!-- <div id="piano"></div>
+        <label for="chord">Chord:</label>
+        <select id="chord" onchange="showChord()">
+            <option value="">Choose</option>option
+
+            <option value="C">C</option>
+            <option value="C#">C#</option>
+            <option value="D">D</option>
+            <option value="D#">D#</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="F#">F#</option>
+            <option value="G">G</option>
+            <option value="G#">G#</option>
+            <option value="A">A</option>
+            <option value="A#">A#</option>
+            <option value="B">B</option>
+
+        </select>
+
+        <div id="guitar"></div>
+
+        <select id="chord" onchange="showChord()">
+            <option value="">Choose</option>option
+            <option value="C">C</option>
+            <option value="C#">C#</option>
+            <option value="D">D</option>
+            <option value="D#">D#</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="F#">F#</option>
+            <option value="G">G</option>
+            <option value="G#">G#</option>
+            <option value="A">A</option>
+            <option value="A#">A#</option>
+            <option value="B">B</option>
+        </select>
+    </div>
+
+
 
     <select id="quality" onchange="showChord()">
         <option value="major">Major</option>
@@ -75,16 +156,14 @@
     </select>
 
     <label><input type="checkbox" id="add9" onchange="showChord()"> Add 9</label>
-    <label><input type="checkbox" id="add11" onchange="showChord()"> Add 11</label>
+    <label><input type="checkbox" id="add11" onchange="showChord()"> Add 11</label> -->
 
 
-    <br><br>
+        <br><br>
 
-    <div id="chord-container">
-        <!-- <ins id="chordDisplay" class="scales_chords_api" chord="D" instrument="piano" output="image" nolink="true">
-        </ins> -->
-        <!-- <img id="chordImage" width="120" height="160"> -->
-    </div>
+        <div id="chord-container">
+
+        </div>
 
 </body>
 
