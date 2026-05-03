@@ -18,6 +18,8 @@ const chords = [
 	'Bm',
 ];
 
+let currentShapeIndex = 0;
+
 function showChord() {
 	const root = document.getElementById('piano-chord').value;
 	const quality = document.getElementById('piano-quality').value;
@@ -55,6 +57,8 @@ function showPianoChord() {
 }
 
 function showGuitarChord() {
+	currentShapeIndex = 0;
+
 	const root = document.getElementById('guitar-chord').value;
 	const quality = document.getElementById('guitar-quality').value;
 	const seventh = document.getElementById('guitar-seventh').value;
@@ -213,91 +217,126 @@ function getChordNotes(root, intervals) {
 	return intervals.map((i) => baseNotes[(rootIndex + i) % 12]);
 }
 
-function findBestFretWindow(board, chordNotes) {
-	const MAX_SPAN = 5;
-
-	for (let start = 0; start < 8; start++) {
-		const end = start + MAX_SPAN;
-
-		let count = 0;
-
-		board.forEach((string) => {
-			for (let f = start; f <= end; f++) {
-				if (chordNotes.includes(string[f])) {
-					count++;
-					break;
-				}
-			}
-		});
-
-		if (count >= 3) return start;
-	}
-
-	return 0;
-}
-
-function getFretboardPositions(root, intervals, board, start, span = 5) {
-	const chordNotes = getChordNotes(root, intervals);
-	const end = start + span;
-
-	const positions = [];
-
-	board.forEach((string, stringIndex) => {
-		string.forEach((note, fretIndex) => {
-			if (fretIndex < start || fretIndex > end) return;
-
-			if (chordNotes.includes(note)) {
-				positions.push({
-					string: stringIndex,
-					fret: fretIndex,
-					note: note,
-				});
-			}
-		});
-	});
-
-	return positions;
-}
-
-const chordShapes = {
+const guitarChordShapes = {
 	C: {
-		major: [null, 3, 2, 0, 1, 0],
-		minor: [null, 3, 1, 0, 1, null],
+		major: [
+			[null, 3, 2, 0, 1, 0],
+			[3, 3, 2, 0, 1, 0],
+			[8, 10, 10, 9, 8, 8],
+		],
+		minor: [
+			[null, 3, 5, 5, 4, 3],
+			[8, 10, 10, 8, 8, 8],
+		],
 	},
 
 	G: {
-		major: [3, 2, 0, 0, 0, 3],
-	},
-
-	D: {
-		major: [null, null, 0, 2, 3, 2],
+		major: [
+			[3, 2, 0, 0, 0, 3],
+			[3, 5, 5, 4, 3, 3],
+		],
+		minor: [[3, 5, 5, 3, 3, 3]],
 	},
 
 	A: {
-		major: [null, 0, 2, 2, 2, 0],
-		minor: [null, 0, 2, 2, 1, 0],
+		major: [
+			[null, 0, 2, 2, 2, 0],
+			[5, 7, 7, 6, 5, 5],
+		],
+		minor: [
+			[null, 0, 2, 2, 1, 0],
+			[5, 7, 7, 5, 5, 5],
+		],
+	},
+
+	D: {
+		major: [
+			[null, null, 0, 2, 3, 2],
+			[5, 5, 7, 7, 7, 5],
+		],
+		minor: [
+			[null, null, 0, 2, 3, 1],
+			[5, 5, 7, 5, 5, 5],
+		],
 	},
 
 	E: {
-		major: [0, 2, 2, 1, 0, 0],
-		minor: [0, 2, 2, 0, 0, 0],
+		major: [
+			[0, 2, 2, 1, 0, 0],
+			[12, 14, 14, 13, 12, 12],
+		],
+		minor: [
+			[0, 2, 2, 0, 0, 0],
+			[12, 14, 14, 12, 12, 12],
+		],
+	},
+
+	F: {
+		major: [
+			[1, 3, 3, 2, 1, 1],
+			[null, null, 3, 2, 1, 1],
+		],
+		minor: [[1, 3, 3, 1, 1, 1]],
+	},
+
+	B: {
+		major: [
+			[null, 2, 4, 4, 4, 2],
+			[7, 9, 9, 8, 7, 7],
+		],
+		minor: [
+			[null, 2, 4, 4, 3, 2],
+			[7, 9, 9, 7, 7, 7],
+		],
 	},
 };
+
+function nextGuitarShape() {
+	currentShapeIndex++;
+
+	const root = document.getElementById('guitar-chord').value;
+	const quality = document.getElementById('guitar-quality').value;
+
+	renderGuitarChord(root, quality);
+}
 
 function renderGuitarChord(root, quality) {
 	const container = document.getElementById('guitar');
 	container.innerHTML = '';
 
-	const shape = chordShapes[root]?.[quality];
+	const shapes = guitarChordShapes[root]?.[quality];
 
-	if (!shape) {
+	if (!shapes || shapes.length === 0) {
 		container.textContent = 'Chord not available';
 		return;
 	}
 
+	const label = document.createElement('div');
+	label.textContent = `Shape ${(currentShapeIndex % shapes.length) + 1} / ${shapes.length}`;
+	container.appendChild(label);
+
+	const shape = shapes[currentShapeIndex % shapes.length];
+
+	const frets = shape.filter((f) => f !== null);
+	const minFret = Math.min(...frets.filter((f) => f > 0));
+	const startFret = minFret > 1 ? minFret : 0;
+	const endFret = startFret + 5;
+
+	const fretRow = document.createElement('div');
+	fretRow.className = 'fret-row';
+
+	for (let f = startFret; f <= endFret; f++) {
+		const fretLabel = document.createElement('div');
+		fretLabel.className = 'fret-label';
+		fretLabel.textContent = f;
+		fretRow.appendChild(fretLabel);
+	}
+
+	container.appendChild(fretRow);
+
 	const stringNames = ['E', 'A', 'D', 'G', 'B', 'E'];
 
-	// reverse both together
+	// reverse for correct orientation
 	const reversedShape = [...shape].reverse();
 	const reversedStrings = [...stringNames].reverse();
 
@@ -305,20 +344,19 @@ function renderGuitarChord(root, quality) {
 		const row = document.createElement('div');
 		row.className = 'string';
 
-		// label
+		// string label
 		const label = document.createElement('div');
 		label.className = 'string-label';
-		// label.textContent = stringNames[stringIndex];
 		label.textContent = reversedStrings[stringIndex];
 		row.appendChild(label);
 
-		for (let f = 0; f <= 5; f++) {
+		for (let f = startFret; f <= endFret; f++) {
 			const fret = document.createElement('div');
 			fret.className = 'fret';
 
-			if (fretValue === null && f === 0) {
+			if (fretValue === null && f === startFret) {
 				fret.textContent = 'X';
-			} else if (fretValue === 0 && f === 0) {
+			} else if (fretValue === 0 && f === 0 && startFret === 0) {
 				fret.textContent = 'O';
 			} else if (fretValue === f) {
 				fret.classList.add('active');
@@ -329,96 +367,4 @@ function renderGuitarChord(root, quality) {
 
 		container.appendChild(row);
 	});
-}
-
-// Previous: ok version
-// function renderGuitar(root, intervals) {
-// 	const container = document.getElementById('guitar');
-// 	container.innerHTML = '';
-
-// 	const board = buildFretboard(12);
-// 	const chordNotes = getChordNotes(root, intervals);
-
-// 	// best position
-// 	const start = findBestFretWindow(board, chordNotes);
-// 	const span = 5;
-
-// 	const positions = getPlayablePositions(root, intervals, board, start, span);
-
-// 	const fretRow = document.createElement('div');
-// 	fretRow.className = 'fret-row';
-
-// 	for (let f = start; f <= start + span; f++) {
-// 		const fretLabel = document.createElement('div');
-// 		fretLabel.className = 'fret-label';
-// 		fretLabel.textContent = f;
-
-// 		fretRow.appendChild(fretLabel);
-// 	}
-
-// 	container.appendChild(fretRow);
-
-// 	const stringNames = ['E', 'A', 'D', 'G', 'B', 'E'];
-
-// 	board.forEach((string, sIndex) => {
-// 		const row = document.createElement('div');
-// 		row.className = 'string';
-
-// 		// Label strings
-// 		const label = document.createElement('div');
-// 		label.className = 'string-label';
-// 		label.textContent = stringNames[sIndex];
-
-// 		string.forEach((note, fIndex) => {
-// 			// render visible window
-// 			if (fIndex < start || fIndex > start + span) return;
-
-// 			const fret = document.createElement('div');
-// 			fret.className = 'fret';
-
-// 			if (
-// 				positions.some((p) => p.string === sIndex && p.fret === fIndex)
-// 			) {
-// 				fret.classList.add('active');
-
-// 				fret.textContent = note;
-// 			}
-
-// 			row.appendChild(fret);
-// 			row.appendChild(label);
-// 		});
-
-// 		container.appendChild(row);
-// 	});
-
-// }
-
-function getPlayablePositions(root, intervals, board, start, span = 5) {
-	const chordNotes = getChordNotes(root, intervals);
-	const end = start + span;
-
-	const positions = [];
-
-	board.forEach((string, stringIndex) => {
-		let chosen = null;
-
-		for (let fret = start; fret <= end; fret++) {
-			const note = string[fret];
-
-			if (chordNotes.includes(note)) {
-				chosen = {
-					string: stringIndex,
-					fret: fret,
-					note: note,
-				};
-
-				// Root on lower strings
-				if (note === root) break;
-			}
-		}
-
-		if (chosen) positions.push(chosen);
-	});
-
-	return positions;
 }
