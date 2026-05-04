@@ -20,30 +20,11 @@ const chords = [
 
 let currentShapeIndex = 0;
 
-function showChord() {
-	const root = document.getElementById('piano-chord').value;
-	const quality = document.getElementById('piano-quality').value;
-
-	const seventh = document.getElementById('piano-seventh').value;
-
-	const add9 = document.getElementById('piano-add9')?.checked;
-	const add11 = document.getElementById('piano-add11')?.checked;
-
-	// build chord intervals
-	const intervals = buildChord(root, quality, seventh, {
-		add9: add9,
-		add11: add11,
-	});
-
-	renderPiano(root, intervals);
-	// renderGuitar(root, intervals);
-	renderGuitarChord(root, quality);
-}
-
 function showPianoChord() {
 	const root = document.getElementById('piano-chord').value;
 	const quality = document.getElementById('piano-quality').value;
 	const seventh = document.getElementById('piano-seventh').value;
+	console.log(seventh);
 
 	const add9 = document.getElementById('piano-add9')?.checked;
 	const add11 = document.getElementById('piano-add11')?.checked;
@@ -71,7 +52,6 @@ function showGuitarChord() {
 		add11,
 	});
 
-	// renderGuitar(root, intervals);
 	renderGuitarChord(root, quality);
 }
 
@@ -192,7 +172,7 @@ function buildChord(root, quality, seventh, extensions) {
 	return [...new Set(intervals)];
 }
 
-const tuning = ['E', 'A', 'D', 'G', 'B', 'E']; // low → high
+const tuning = ['E', 'A', 'D', 'G', 'B', 'E']; // low to high
 
 function buildFretboard(frets = 12) {
 	const board = [];
@@ -217,6 +197,7 @@ function getChordNotes(root, intervals) {
 	return intervals.map((i) => baseNotes[(rootIndex + i) % 12]);
 }
 
+// Basic chord dictionary
 const guitarChordShapes = {
 	C: {
 		major: [
