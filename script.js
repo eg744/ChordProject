@@ -432,23 +432,34 @@ function insertChord() {
 }
 
 function showChordFromTag(root, quality) {
-	const gRoot = document.getElementById('guitar-chord');
-	const gQuality = document.getElementById('guitar-quality');
+	const guitarRoot = document.getElementById('guitar-chord');
+	const guitarQuality = document.getElementById('guitar-quality');
 
-	const pRoot = document.getElementById('piano-chord');
-	const pQuality = document.getElementById('piano-quality');
+	const pianoRoot = document.getElementById('piano-chord');
+	const pianoQuality = document.getElementById('piano-quality');
 
-	// Guitar (only if present on page)
-	if (gRoot && gQuality) {
-		gRoot.value = root;
-		gQuality.value = quality;
-		showGuitarChord();
+	// sync UI if it exists
+	if (guitarRoot && guitarQuality) {
+		guitarRoot.value = root;
+		guitarQuality.value = quality;
+
+		const intervals = buildChord(root, quality, '', {
+			add9: document.getElementById('guitar-add9')?.checked,
+			add11: document.getElementById('guitar-add11')?.checked,
+		});
+
+		renderGuitarChord(root, quality);
 	}
 
-	// Piano (only if present on page)
-	if (pRoot && pQuality) {
-		pRoot.value = root;
-		pQuality.value = quality;
-		showPianoChord();
+	if (pianoRoot && pianoQuality) {
+		pianoRoot.value = root;
+		pianoQuality.value = quality;
+
+		const intervals = buildChord(root, quality, '', {
+			add9: document.getElementById('piano-add9')?.checked,
+			add11: document.getElementById('piano-add11')?.checked,
+		});
+
+		renderPiano(root, intervals);
 	}
 }
