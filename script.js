@@ -24,7 +24,6 @@ function showPianoChord() {
 	const root = document.getElementById('piano-chord').value;
 	const quality = document.getElementById('piano-quality').value;
 	const seventh = document.getElementById('piano-seventh').value;
-	console.log(seventh);
 
 	const add9 = document.getElementById('piano-add9')?.checked;
 	const add11 = document.getElementById('piano-add11')?.checked;
@@ -348,4 +347,108 @@ function renderGuitarChord(root, quality) {
 
 		container.appendChild(row);
 	});
+}
+
+// ==Editor page==
+function addSection() {
+	const name = document.getElementById('section-name').value;
+
+	const section = document.createElement('div');
+	section.className = 'section';
+
+	section.innerHTML = `
+        <h3>${name}</h3>
+        <div class="line">
+            <div class="chords"></div>
+            <div contenteditable="true" class="lyrics"></div>
+        </div>
+        <button onclick="addLine(this)">+ Line</button>
+    `;
+
+	document.getElementById('song-container').appendChild(section);
+}
+
+function addLine(button) {
+	const section = button.parentElement;
+
+	const line = document.createElement('div');
+	line.className = 'line';
+
+	line.innerHTML = `
+        <div class="chords"></div>
+        <div contenteditable="true" class="lyrics"></div>
+    `;
+
+	section.insertBefore(line, button);
+}
+
+let activeLyricsDiv = null;
+
+// track where user is typing
+document.addEventListener('click', (e) => {
+	if (e.target.classList.contains('lyrics')) {
+		activeLyricsDiv = e.target;
+	}
+});
+
+let activeLine = null;
+
+document.addEventListener('click', (e) => {
+	if (e.target.classList.contains('lyrics')) {
+		activeLine = e.target.parentElement;
+	}
+});
+
+function insertChord() {
+	const root = document.getElementById('editor-chord-root').value;
+	const quality = document.getElementById('editor-quality').value;
+
+	const chordText = root + (quality === 'minor' ? 'm' : '');
+
+	const chordEl = document.createElement('span');
+	chordEl.className = 'chord';
+	chordEl.innerText = chordText;
+
+	chordEl.onclick = () => showChordFromTag(root, quality);
+
+	// get cursor position inside lyrics
+	const selection = window.getSelection();
+	const range = selection.getRangeAt(0);
+	const rect = range.getBoundingClientRect();
+
+	const lineRect = activeLine.getBoundingClientRect();
+
+	const offsetX = rect.left - lineRect.left;
+
+	chordEl.style.left = offsetX + 'px';
+
+	activeLine.querySelector('.chords').appendChild(chordEl);
+
+	console.log('root:', root);
+	console.log('quality:', quality);
+
+	console.log('guitar:', document.getElementById('guitar-chord'));
+	console.log('piano:', document.getElementById('piano-chord'));
+}
+
+function showChordFromTag(root, quality) {
+	const gRoot = document.getElementById('guitar-chord');
+	const gQuality = document.getElementById('guitar-quality');
+
+	const pRoot = document.getElementById('piano-chord');
+	const pQuality = document.getElementById('piano-quality');
+
+	// Guitar (only if present on page)
+	if (gRoot && gQuality) {
+		gRoot.value = root;
+		gQuality.value = quality;
+		showGuitarChord();
+	}
+
+	// Piano (only if present on page)
+	if (pRoot && pQuality) {
+		pRoot.value = root;
+		pQuality.value = quality;
+		showPianoChord();
+	}
 }
