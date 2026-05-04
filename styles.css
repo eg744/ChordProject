@@ -112,3 +112,51 @@ p {
 #fretbackground {
 	background-color: #333;
 }
+
+/* Editor page */
+.section {
+	margin-bottom: 20px;
+}
+
+.line {
+	position: relative;
+	margin-bottom: 20px;
+}
+
+.lyrics {
+	min-height: 24px;
+	border-bottom: 1px solid #ccc;
+	padding: 5px;
+}
+
+.chords {
+	position: relative;
+	height: 20px;
+}
+
+.chord {
+	position: absolute;
+	top: 0;
+	font-weight: bold;
+	color: blue;
+	cursor: pointer;
+	transform: translateX(-50%);
+}
+
+/* NAV */
+.navbar {
+	background-color: #222;
+	padding: 10px;
+	display: flex;
+	gap: 20px;
+}
+
+.navbar a {
+	color: white;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.navbar a:hover {
+	text-decoration: underline;
+}
