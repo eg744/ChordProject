@@ -1,108 +1,105 @@
 <!doctype html>
 <html lang="en">
-   <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Document</title>
-      <link rel="stylesheet" type="text/css" href="styles.css" />
-      <script src="script.js" defer></script>
-   </head>
 
-   <br>
-      <nav class="navbar">
-         <a href="index.html">Home</a>
-         <a href="chordEditor.html">Chord Editor</a>
-         <a href="about.html">About</a>
-      </nav>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <script src="script.js" defer></script>
+</head>
 
-      <h1>Chord Chart Editor</h1>
+<br>
+<nav class="navbar">
+    <a href="index.html">Home</a>
+    <a href="chordEditor.html">Chord Editor</a>
+    <a href="about.html">About</a>
+</nav>
 
-      
-   <!-- INSTRUMENT SELECT -->
-   <select id="instrument-select" onchange="renderInstrumentUI()">
-      <option value="">Choose Instrument</option>
-      <option value="piano">Piano</option>
-      <option value="guitar">Guitar</option>
-   </select>
+<h1>Chord Chart Editor</h1>
 
-   <div id="instrument-ui"></div>
 
-   <br><br>
+<!-- INSTRUMENT SELECT -->
+<select id="instrument-select" onchange="renderInstrumentUI()">
+    <option value="">Choose Instrument</option>
+    <option value="piano">Piano</option>
+    <option value="guitar">Guitar</option>
+</select>
 
-   <!-- SECTION CONTROLS -->
-   <input
-      type="text"
-      id="section-name"
-      placeholder="Section name (Verse 1, Chorus)"
-   />
-   <button onclick="addSection()">Add Section</button>
+<div id="instrument-ui"></div>
 
-   <hr />
+<br><br>
 
-   <!-- CHORD PICKER -->
-   <select id="editor-chord-root">
-      <option value="C">C</option>
-      <option value="C#">C#</option>
-      <option value="D">D</option>
-      <option value="D#">D#</option>
-      <option value="E">E</option>
-      <option value="F">F</option>
-      <option value="F#">F#</option>
-      <option value="G">G</option>
-      <option value="G#">G#</option>
-      <option value="A">A</option>
-      <option value="A#">A#</option>
-      <option value="B">B</option>
-   </select>
+<!-- SECTION CONTROLS -->
+<input type="text" id="section-name" placeholder="Section name (Verse 1, Chorus)" />
+<button onclick="addSection()">Add Section</button>
 
-   <select id="editor-quality">
-      <option value="major">Major</option>
-      <option value="minor">Minor</option>
-      <option value="diminished">Diminished</option>
-      <option value="augmented">Augmented</option>
-      <option value="sus2">Sus2</option>
-      <option value="sus4">Sus4</option>
-   </select>
+<hr />
 
-   <button onclick="insertChord()">Insert Chord</button>
+<!-- CHORD PICKER -->
+<select id="editor-chord-root">
+    <option value="C">C</option>
+    <option value="C#">C#</option>
+    <option value="D">D</option>
+    <option value="D#">D#</option>
+    <option value="E">E</option>
+    <option value="F">F</option>
+    <option value="F#">F#</option>
+    <option value="G">G</option>
+    <option value="G#">G#</option>
+    <option value="A">A</option>
+    <option value="A#">A#</option>
+    <option value="B">B</option>
+</select>
 
-   <hr />
+<select id="editor-quality">
+    <option value="major">Major</option>
+    <option value="minor">Minor</option>
+    <option value="diminished">Diminished</option>
+    <option value="augmented">Augmented</option>
+    <option value="sus2">Sus2</option>
+    <option value="sus4">Sus4</option>
+</select>
 
-   <!-- LYRICS -->
-   <div id="song-container"></div>
+<button onclick="insertChord()">Insert Chord</button>
 
-   <script>
-   // =============================
-   // 🎛️ INSTRUMENT UI TEMPLATES
-   // =============================
+<hr />
 
-   const templates = {
-      piano: `
+<!-- LYRICS -->
+<div id="song-container"></div>
+
+<script>
+    // =============================
+    // 🎛️ INSTRUMENT UI TEMPLATES
+    // =============================
+
+    const templates = {
+        piano: `
          <h3>Piano</h3>
          <div id="piano"></div>
       `,
-      guitar: `
+        guitar: `
          <h3>Guitar</h3>
          <div id="guitar"></div>
          <button onclick="nextGuitarShape()">Next Shape</button>
       `
-   };
+    };
 
-   function renderInstrumentUI() {
-      const instrument = document.getElementById('instrument-select').value;
-      const container = document.getElementById('instrument-ui');
+    function renderInstrumentUI() {
+        const instrument = document.getElementById('instrument-select').value;
+        const container = document.getElementById('instrument-ui');
 
-      container.innerHTML = templates[instrument] || '';
-   }
+        container.innerHTML = templates[instrument] || '';
+    }
 
 
-   function addSection() {
-      const name = document.getElementById("section-name").value;
+    function addSection() {
+        const name = document.getElementById("section-name").value;
 
-      const section = document.createElement("div");
-      section.className = "section";
+        const section = document.createElement("div");
+        section.className = "section";
 
-      section.innerHTML = `
+        section.innerHTML = `
          <h3>${name}</h3>
          <div class="line">
             <div class="chords"></div>
@@ -111,102 +108,104 @@
          <button onclick="addLine(this)">+ Line</button>
       `;
 
-      document.getElementById("song-container").appendChild(section);
-   }
+        document.getElementById("song-container").appendChild(section);
+    }
 
-   function addLine(button) {
-      const section = button.parentElement;
+    function addLine(button) {
+        const section = button.parentElement;
 
-      const line = document.createElement("div");
-      line.className = "line";
+        const line = document.createElement("div");
+        line.className = "line";
 
-      line.innerHTML = `
+        line.innerHTML = `
          <div class="chords"></div>
          <div contenteditable="true" class="lyrics"></div>
       `;
 
-      section.insertBefore(line, button);
-   }
+        section.insertBefore(line, button);
+    }
 
-   // =============================
-   // 🎯 CHORD INSERTION
-   // =============================
+    // =============================
+    // 🎯 CHORD INSERTION
+    // =============================
 
-   let activeLine = null;
+    let activeLine = null;
 
-   document.addEventListener("click", (e) => {
-      if (e.target.classList.contains("lyrics")) {
-         activeLine = e.target.parentElement;
-      }
-   });
+    document.addEventListener("click", (e) => {
+        if (e.target.classList.contains("lyrics")) {
+            activeLine = e.target.parentElement;
+        }
+    });
 
-   function insertChord() {
+    function insertChord() {
 
-      const root = document.getElementById("editor-chord-root").value;
-      const quality = document.getElementById("editor-quality").value;
+        const root = document.getElementById("editor-chord-root").value;
+        const quality = document.getElementById("editor-quality").value;
 
-      const chordText = root + (quality === "minor" ? "m" : "");
+        const chordText = root + (quality === "minor" ? "m" : "");
 
-      const chordEl = document.createElement("span");
-      chordEl.className = "chord";
-      chordEl.innerText = chordText;
+        const chordEl = document.createElement("span");
+        chordEl.className = "chord";
+        chordEl.innerText = chordText;
 
-      chordEl.onclick = () => showChordFromTag(root, quality);
+        chordEl.onclick = () => showChordFromTag(root, quality);
 
-      // position above text
-      const selection = window.getSelection();
-      const range = selection.getRangeAt(0);
-      const rect = range.getBoundingClientRect();
-      const lineRect = activeLine.getBoundingClientRect();
+        // position above text
+        const selection = window.getSelection();
+        const range = selection.getRangeAt(0);
+        const rect = range.getBoundingClientRect();
+        const lineRect = activeLine.getBoundingClientRect();
 
-      const offsetX = rect.left - lineRect.left;
+        const offsetX = rect.left - lineRect.left;
 
-      chordEl.style.left = offsetX + "px";
+        chordEl.style.left = offsetX + "px";
 
-      activeLine.querySelector(".chords").appendChild(chordEl);
-   }
+        activeLine.querySelector(".chords").appendChild(chordEl);
+    }
 
-   // =============================
-   // 🎸🎹 CHORD RENDER BRIDGE
-   // =============================
+    // =============================
+    // 🎸🎹 CHORD RENDER BRIDGE
+    // =============================
 
-   const state = {
-      guitar: { root: null, quality: null, shapeIndex: 0 }
-   };
+    const state = {
+        guitar: { root: null, quality: null, shapeIndex: 0 }
+    };
 
-   function showChordFromTag(root, quality) {
-      const instrument = document.getElementById('instrument-select').value;
+    function showChordFromTag(root, quality) {
+        const instrument = document.getElementById('instrument-select').value;
 
-      if (instrument === "guitar") {
-         state.guitar.root = root;
-         state.guitar.quality = quality;
-         state.guitar.shapeIndex = 0;
+        if (instrument === "guitar") {
+            state.guitar.root = root;
+            state.guitar.quality = quality;
+            state.guitar.shapeIndex = 0;
 
-         renderGuitarChord(root, quality, 0);
-      }
+            renderGuitarChord(root, quality, 0);
+        }
 
-      if (instrument === "piano") {
-         const intervals = buildChord(root, quality, '', {
-            add9: false,
-            add11: false
-         });
+        if (instrument === "piano") {
+            const intervals = buildChord(root, quality, '', {
+                add9: false,
+                add11: false
+            });
 
-         renderPiano(root, intervals);
-      }
-   }
+            renderPiano(root, intervals);
+        }
+    }
 
-   function nextGuitarShape() {
-      state.guitar.shapeIndex++;
+    function nextGuitarShape() {
+        state.guitar.shapeIndex++;
 
-      renderGuitarChord(
-         state.guitar.root,
-         state.guitar.quality,
-         state.guitar.shapeIndex
-      );
-   }
+        renderGuitarChord(
+            state.guitar.root,
+            state.guitar.quality,
+            state.guitar.shapeIndex
+        );
+    }
 
-   </script>
+</script>
 
 
-   </body>
+</body>
+<footer>Created by Elijah Gillit for CS312</footer>
+
 </html>
