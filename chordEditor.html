@@ -28,7 +28,6 @@
 </select>
 
 <div id="instrument-ui"></div>
-
 <br><br>
 
 <!-- SECTION CONTROLS -->
@@ -70,9 +69,6 @@
 <div id="song-container"></div>
 
 <script>
-    // =============================
-    // 🎛️ INSTRUMENT UI TEMPLATES
-    // =============================
 
     const templates = {
         piano: `
@@ -82,7 +78,7 @@
         guitar: `
          <h3>Guitar</h3>
          <div id="guitar"></div>
-         <button onclick="nextGuitarShape()">Next Shape</button>
+        
       `
     };
 
@@ -126,9 +122,7 @@
         section.insertBefore(line, button);
     }
 
-    // =============================
-    // 🎯 CHORD INSERTION
-    // =============================
+    // Chord insert
 
     let activeLine = null;
 
@@ -164,9 +158,7 @@
         activeLine.querySelector(".chords").appendChild(chordEl);
     }
 
-    // =============================
-    // 🎸🎹 CHORD RENDER BRIDGE
-    // =============================
+    // Guitar
 
     const state = {
         guitar: { root: null, quality: null, shapeIndex: 0 }
@@ -183,6 +175,7 @@
             renderGuitarChord(root, quality, 0);
         }
 
+        // Piano
         if (instrument === "piano") {
             const intervals = buildChord(root, quality, '', {
                 add9: false,
@@ -204,6 +197,7 @@
     }
 
 </script>
+
 
 
 </body>
