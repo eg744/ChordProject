@@ -1,223 +1,225 @@
 html,
 body {
-	height: 100%;
+   height: 100%;
 }
 body {
-	background-color: lightblue;
+   background-color: lightblue;
 }
 h1 {
-	display: flex;
-	align-items: center;
-	padding-top: 1.5em;
-	justify-content: center;
+   display: flex;
+   align-items: center;
+   padding-top: 1.5em;
+   justify-content: center;
 }
 
 div {
-	background-color: lightblue;
-}
-
-p {
-	background-color: yellow;
+   background-color: lightblue;
 }
 
 #piano {
-	position: relative;
-	width: 900px;
-	height: 180px;
+   position: relative;
+   width: 900px;
+   height: 180px;
 }
 
 /* White keys */
 .white-key {
-	width: 60px;
-	height: 180px;
-	background: white;
-	border: 1px solid black;
-	box-sizing: border-box;
-	float: left;
-	position: relative;
-	z-index: 1;
-	border-radius: 0 0 5px 5px;
+   width: 60px;
+   height: 180px;
+   background: white;
+   border: 1px solid black;
+   box-sizing: border-box;
+   float: left;
+   position: relative;
+   z-index: 1;
+   border-radius: 0 0 5px 5px;
 }
 
 /* Black keys */
 .black-key {
-	width: 40px;
-	height: 110px;
-	background: black;
-	position: absolute;
-	z-index: 2;
-	border-radius: 0 0 5px 5px;
+   width: 40px;
+   height: 110px;
+   background: black;
+   position: absolute;
+   z-index: 2;
+   border-radius: 0 0 5px 5px;
 }
 
 /* Active notes */
 .active-white {
-	background: orange;
+   background: orange;
 }
 
 .active-black {
-	background: red;
+   background: red;
 }
 
 /* =======Guitar========== */
 #guitar {
-	margin-top: 20px;
+   margin-top: 20px;
 }
 
 .string {
-	display: flex;
+   display: flex;
 }
 
 .fret {
-	width: 40px;
-	height: 30px;
-	border: 1px solid #ccc;
+   width: 40px;
+   height: 30px;
+   border: 1px solid #ccc;
 }
 
 .fret.active {
-	background-color: orange;
+   background-color: orange;
 }
 
 /*  */
 .string {
-	display: flex;
-	align-items: center;
+   display: flex;
+   align-items: center;
 }
 
 .string-label {
-	width: 20px;
-	margin-right: 5px;
-	font-weight: bold;
+   width: 20px;
+   margin-right: 5px;
+   font-weight: bold;
 }
 
 .fret-row {
-	display: flex;
-	margin-left: 25px;
+   display: flex;
+   margin-left: 25px;
 }
 
 .fret-label {
-	width: 40px;
-	text-align: center;
-	font-size: 12px;
-	color: #333;
+   width: 40px;
+   text-align: center;
+   font-size: 12px;
+   color: #333;
 }
 
 .fret {
-	width: 40px;
-	height: 30px;
-	border: 1px solid #ccc;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 12px;
+   width: 40px;
+   height: 30px;
+   border: 1px solid #121111;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 12px;
 }
 
 .fret.active {
-	background-color: orange;
-	font-weight: bold;
+   background-color: orange;
+   font-weight: bold;
 }
 #fretbackground {
-	background-color: #333;
+   background-color: #333;
 }
 
 /* Editor page */
 .section {
-	margin-bottom: 20px;
+   margin-bottom: 20px;
 }
 
 .line {
-	position: relative;
-	margin-bottom: 20px;
+   position: relative;
+   margin-bottom: 20px;
 }
 
 .lyrics {
-	min-height: 24px;
-	border-bottom: 1px solid #ccc;
-	padding: 5px;
+   min-height: 24px;
+   border-bottom: 1px solid #ccc;
+   padding: 5px;
 }
 
 .chords {
-	position: relative;
-	height: 20px;
+   position: relative;
+   height: 20px;
 }
 
 .chord {
-	position: absolute;
-	top: 0;
-	font-weight: bold;
-	color: blue;
-	cursor: pointer;
-	transform: translateX(-50%);
+   position: absolute;
+   top: 0;
+   font-weight: bold;
+   color: blue;
+   cursor: pointer;
+   transform: translateX(-50%);
 }
 
 /* NAV */
 .navbar {
-	padding: 10px;
-	display: flex;
-	gap: 20px;
+   padding: 10px;
+   display: flex;
+   gap: 20px;
 
-	display: flex;
+   display: flex;
 
-	justify-content: space-evenly;
-	align-items: center;
-	text-align: center;
+   justify-content: space-evenly;
+   align-items: center;
+   text-align: center;
 
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	background-color: #333;
-	color: white;
-	text-align: center;
-	padding: 10px;
+   position: fixed;
+   left: 0;
+   top: 0;
+   width: 100%;
+   background-color: #333;
+   color: white;
+   text-align: center;
+   padding: 10px;
 }
 
 .navbar a {
-	color: white;
-	text-decoration: none;
-	font-weight: bold;
+   color: white;
+   text-decoration: none;
+   font-weight: bold;
 }
 
 .navbar a:hover {
-	text-decoration: underline;
+   text-decoration: underline;
 }
 
 /* About */
 
 .page {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-height: 100vh;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   min-height: 100vh;
 }
 
 .content {
-	flex: 1; /* pushes footer down */
-	display: flex;
-	flex-direction: column;
-	justify-content: center; /* vertical center */
-	align-items: center; /* horizontal center */
-	text-align: center;
+   flex: 1;
+
+   display: flex;
+   flex-direction: column;
+
+   justify-content: center; /* vertical center when space allows */
+   align-items: center; /* horizontal center */
+
+   text-align: center;
+   padding: 20px;
 }
 
 .about-img {
-	max-width: 300px;
-	height: auto;
-	margin-bottom: 20px;
+   margin-top: 20px;
+   max-width: 300px;
+   height: auto;
+   margin-bottom: 20px;
+   border-radius: 100%;
 }
 
 footer {
-	text-align: center;
-	padding: 10px;
-	background: #222;
-	color: white;
+   text-align: center;
+   padding: 10px;
+   background: #222;
+   color: white;
 
-	position: fixed;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	background-color: #333;
-	color: white;
-	text-align: center;
-	padding: 10px;
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: #333;
+   color: white;
+   text-align: center;
+   padding: 10px;
 }
