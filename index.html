@@ -26,14 +26,15 @@
 
         </div>
         <div class="instruments">
+           
 
-            <!-- 🎹 PIANO -->
+            <!--  PIANO -->
             <div id="piano-container">
                 
                 <div id="piano"></div>
                 <h3>Piano</h3>
                 <select id="piano-chord" onchange="showPianoChord()">
-                    <option value="">Choose</option>
+                    <option value="">Root</option>
 
                     <option value="C">C</option>
                     <option value="C#">C#</option>
@@ -71,7 +72,7 @@
                 <label><input type="checkbox" id="piano-add11" onchange="showPianoChord()"> Add 11</label>
             </div>
 
-            <!-- 🎸 GUITAR -->
+            <!--  GUITAR -->
             <div id="guitar-container">
                 <h3>Guitar</h3>
                 <div id="guitar">
@@ -81,7 +82,7 @@
 
                 <select id="guitar-chord" onchange="showGuitarChord()">
 
-                    <option value="">Choose</option>option
+                    <option value="">Root</option>option
                     <option value="C">C</option>
                     <option value="C#">C#</option>
                     <option value="D">D</option>
@@ -101,8 +102,7 @@
                     <option value="minor">Minor</option>
                 </select>
 
-                <label><input type="checkbox" id="guitar-add9"> Add 9</label>
-                <label><input type="checkbox" id="guitar-add11"> Add 11</label>
+            
                 <label><button onclick="nextGuitarShape()">Next Shape</button></label>
             </div>
 
